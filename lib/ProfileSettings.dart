@@ -2,17 +2,17 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class ProfileSettings extends StatefulWidget {
+  const ProfileSettings({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<ProfileSettings> createState() => _ProfileSettingsState();
 }
 
-class _SignUpState extends State<SignUp> {
-  late String email;
+class _ProfileSettingsState extends State<ProfileSettings> {
+  late String adress;
   late String password;
-  late String username;
+  late String newPassword;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isObscure = true;
 
@@ -23,51 +23,22 @@ class _SignUpState extends State<SignUp> {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: [
-            Image.asset("assets/images/movie.png", width: 200, height: 200),
+            SizedBox(height: 100),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Sign Up",
+                  "Profile Settings",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
               ],
             ),
+            Image.asset("assets/images/profile.png", width: 200, height: 200),
             SizedBox(height: 20),
             Form(
               key: _formKey,
               child: Column(
                 children: [
-                  TextFormField(
-                    onSaved: (newValue) => username = newValue!,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your username',
-                      hintStyle: TextStyle(fontSize: 14),
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    onSaved: (newValue) => email = newValue!,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your email',
-                      hintStyle: TextStyle(fontSize: 14),
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
                   TextFormField(
                     obscureText: isObscure,
                     onSaved: (newValue) => password = newValue!,
@@ -82,7 +53,7 @@ class _SignUpState extends State<SignUp> {
                           isObscure ? Icons.visibility_off : Icons.visibility,
                         ),
                       ),
-                      hintText: 'Enter your password',
+                      hintText: 'Current password',
                       hintStyle: const TextStyle(fontSize: 14),
                       border: const OutlineInputBorder(),
                     ),
@@ -95,19 +66,48 @@ class _SignUpState extends State<SignUp> {
                   ),
 
                   SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Spacer(),
-                      const Text("Already have an account?"),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.arrow_right_alt,
-                          color: Colors.deepOrangeAccent,
+                  TextFormField(
+                    obscureText: isObscure,
+                    onSaved: (newValue) => newPassword = newValue!,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                        icon: Icon(
+                          isObscure ? Icons.visibility_off : Icons.visibility,
                         ),
                       ),
-                    ],
+                      hintText: 'New password',
+                      hintStyle: const TextStyle(fontSize: 14),
+                      border: const OutlineInputBorder(),
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
                   ),
+
+                  SizedBox(height: 20),
+                                    TextFormField(
+                    onSaved: (newValue) => adress = newValue!,
+                    decoration: const InputDecoration(
+                      hintText: 'Address',
+                      hintStyle: TextStyle(fontSize: 14),
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    },
+                  ),
+
                   SizedBox(height: 20),
                   SizedBox(
                     width: double.infinity,
@@ -115,23 +115,7 @@ class _SignUpState extends State<SignUp> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Success"),
-                                content: Text("Account created for $username"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("OK"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          // save changes logic here
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -140,9 +124,10 @@ class _SignUpState extends State<SignUp> {
                         foregroundColor: Colors.white,
                         textStyle: TextStyle(fontSize: 18),
                       ),
-                      child: const Text('Sign Up'),
+                      child: const Text('Save Changes'),
                     ),
                   ),
+                  SizedBox(height: 20),
                 ],
               ),
             ),

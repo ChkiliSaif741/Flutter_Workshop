@@ -2,17 +2,16 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({super.key});
+class SignIn extends StatefulWidget {
+  const SignIn({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignInState extends State<SignIn> {
   late String email;
   late String password;
-  late String username;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isObscure = true;
 
@@ -28,7 +27,7 @@ class _SignUpState extends State<SignUp> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Sign Up",
+                  "Sign In",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
               ],
@@ -38,21 +37,6 @@ class _SignUpState extends State<SignUp> {
               key: _formKey,
               child: Column(
                 children: [
-                  TextFormField(
-                    onSaved: (newValue) => username = newValue!,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your username',
-                      hintStyle: TextStyle(fontSize: 14),
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
                   TextFormField(
                     onSaved: (newValue) => email = newValue!,
                     decoration: const InputDecoration(
@@ -94,20 +78,7 @@ class _SignUpState extends State<SignUp> {
                     },
                   ),
 
-                  SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Spacer(),
-                      const Text("Already have an account?"),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.arrow_right_alt,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ),
-                    ],
-                  ),
+
                   SizedBox(height: 20),
                   SizedBox(
                     width: double.infinity,
@@ -115,23 +86,7 @@ class _SignUpState extends State<SignUp> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Success"),
-                                content: Text("Account created for $username"),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("OK"),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          // Perform sign-in logic here
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -140,8 +95,41 @@ class _SignUpState extends State<SignUp> {
                         foregroundColor: Colors.white,
                         textStyle: TextStyle(fontSize: 18),
                       ),
-                      child: const Text('Sign Up'),
+                      child: const Text('Sign In'),
                     ),
+                  ),
+                                    SizedBox(height: 20),
+                                                      SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        backgroundColor: Colors.deepOrangeAccent,
+                        foregroundColor: Colors.white,
+                        textStyle: TextStyle(fontSize: 18),
+                      ),
+                      child: const Text('Create an account'),
+                    ),
+                  ),
+                                    SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Spacer(),
+                      const Text("Forgot password?"),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.arrow_right_alt,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
